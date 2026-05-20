@@ -13,35 +13,47 @@ enum UIViewProbe {
         let frameInWindow: CGRect
     }
 
-    /// Returns the deepest interactive UIView at `pointInWindow` using
-    /// UIKit's authoritative `hitTest`. SwiftUI gesture host views are
-    /// `isUserInteractionEnabled = true`, so this drills into them
-    /// reliably. Falls back to a manual deep-walk only if `hitTest`
-    /// returns nil or our own overlay window.
+    /// Returns the deepest UIView at `pointInWindow`. Runs two passes and
+    /// merges:
+    ///
+    /// 1. UIKit's `hitTest` for the deepest *interactive* view. SwiftUI
+    ///    gesture host views and UIControls are reliably surfaced here.
+    /// 2. A manual deep walk for the deepest *visible* view, drilling past
+    ///    interactive containers into their drawing leaves (UILabel,
+    ///    UIImageView, etc.) so QA can annotate the actual visible widget
+    ///    inside a tap row / card / cell — not just the tap target.
+    ///
+    /// When both pass — typically the case for SwiftUI Buttons, UIKit cells,
+    /// custom tap rows — the visual leaf wins if it's a descendant of the
+    /// interactive hit AND meaningfully tighter (the same arbitration as
+    /// Android's `shouldPreferSlot`).
     static func deepestVisibleView(
         in root: UIView,
         pointInWindow: CGPoint
     ) -> Result? {
-        // First, try the host window's native hitTest — this is what UIKit
-        // uses for touch dispatch and is the most reliable way to find the
-        // deepest interactive leaf (including SwiftUI's _TtCV... button hosts).
-        if let window = root.window {
-            // pointInWindow is already in window coords; UIView.hitTest
-            // expects the receiver's own coords, which for a UIWindow is
-            // identical.
-            if let hit = window.hitTest(pointInWindow, with: nil),
-               !(hit.window is JellyOverlayMarking),
-               hit !== window {
-                let frame = hit.convert(hit.bounds, to: nil)
-                return Result(view: hit, frameInWindow: frame)
-            }
-        }
+        let interactive: Result? = {
+            guard let window = root.window else { return nil }
+            guard let hit = window.hitTest(pointInWindow, with: nil),
+                  !(hit.window is JellyOverlayMarking),
+                  hit !== window else { return nil }
+            return Result(view: hit, frameInWindow: hit.convert(hit.bounds, to: nil))
+        }()
+        let visual = manualDeepWalk(in: root, pointInWindow: pointInWindow)
 
-        // Fallback: manual deep walk. Iterates children in reverse z-order
-        // (later subviews draw on top) and treats transparent shells as
-        // pass-through so the search falls through to the visible widget
-        // underneath.
-        return manualDeepWalk(in: root, pointInWindow: pointInWindow)
+        switch (interactive, visual) {
+        case (nil, let v): return v
+        case (let i, nil): return i
+        case (let i?, let v?):
+            // Use the visual leaf when it lives inside the interactive hit
+            // (legitimate nested content) AND is at least 10% tighter. The
+            // descendant check protects against picking a sibling that happens
+            // to share the point under iPad popover edge-cases.
+            let isNested = v.view.isDescendant(of: i.view) || v.view === i.view
+            if isNested, v.frameInWindow.area < i.frameInWindow.area * 0.9 {
+                return v
+            }
+            return i
+        }
     }
 
     private static func manualDeepWalk(

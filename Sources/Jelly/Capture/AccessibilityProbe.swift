@@ -87,12 +87,18 @@ enum AccessibilityProbe {
                 }
             }
         }
-        if let elements = object.accessibilityElements as? [NSObject] {
+        let publishedElements = object.accessibilityElements as? [NSObject]
+        if let elements = publishedElements {
             for child in elements {
                 walk(child, pointInWindow: pointInWindow, emit: emit)
             }
         }
-        if let view = object as? UIView, view.accessibilityElements == nil {
+        // Fall back to the UIView subtree when accessibilityElements is nil OR
+        // empty. An empty published array commonly appears when a SwiftUI view
+        // applies `.accessibilityElement(children: .combine)` at a shallow
+        // level — without this, the walk would dead-end at the host view and
+        // miss every nested label / icon / text underneath.
+        if let view = object as? UIView, (publishedElements?.isEmpty ?? true) {
             for sub in view.subviews { walk(sub, pointInWindow: pointInWindow, emit: emit) }
         }
     }
