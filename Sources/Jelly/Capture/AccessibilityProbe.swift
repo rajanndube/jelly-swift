@@ -34,6 +34,14 @@ enum AccessibilityProbe {
         return best
     }
 
+    /// Debug helper: returns every accessibility candidate at the press point,
+    /// in walk order. Used by `HitTestEngine` diagnostic logging only.
+    static func allMatches(in root: UIView, pointInWindow: CGPoint) -> [Result] {
+        var results: [Result] = []
+        walk(root, pointInWindow: pointInWindow) { results.append($0) }
+        return results
+    }
+
     private static func walk(
         _ object: NSObject,
         pointInWindow: CGPoint,

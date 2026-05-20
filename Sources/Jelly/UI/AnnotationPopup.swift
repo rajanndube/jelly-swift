@@ -125,15 +125,20 @@ struct AnnotationPopup: View {
                         .resizable()
                         .frame(width: scaledW, height: scaledH)
                     if captureBounds.width > 0, captureBounds.height > 0 {
-                        Rectangle()
-                            .strokeBorder(accent, lineWidth: 2.5)
+                        // Outset the stroke so it sits *outside* the captured
+                        // bounds — never paints over the content the QA is
+                        // commenting on. Matches AnnotatedScreenshot.bake.
+                        let lineWidth: CGFloat = 2.5
+                        let cornerRadius: CGFloat = 6
+                        RoundedRectangle(cornerRadius: cornerRadius + lineWidth / 2)
+                            .stroke(accent, lineWidth: lineWidth)
                             .frame(
-                                width: captureBounds.width * scale,
-                                height: captureBounds.height * scale
+                                width: captureBounds.width * scale + lineWidth,
+                                height: captureBounds.height * scale + lineWidth
                             )
                             .offset(
-                                x: captureBounds.minX * scale,
-                                y: captureBounds.minY * scale
+                                x: captureBounds.minX * scale - lineWidth / 2,
+                                y: captureBounds.minY * scale - lineWidth / 2
                             )
                     }
                 }

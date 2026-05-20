@@ -75,16 +75,30 @@ public enum AnnotatedScreenshot {
             // 1. Draw the raw screenshot.
             topImage.draw(in: CGRect(x: 0, y: 0, width: topImage.size.width, height: topImage.size.height))
 
-            // 2. Stroke the bounding rect with accent color.
+            // 2. Outline the bounding rect with the accent color. The stroke
+            // is outset by half its width so it sits entirely *outside* the
+            // captured pixels — important for QA reporting color issues, where
+            // any inset stroke (or translucent fill) would distort the actual
+            // rendered hue under the mark.
             let strokeRect = CGRect(
                 x: CGFloat(bounds.x),
                 y: CGFloat(bounds.y),
                 width: CGFloat(bounds.width),
                 height: CGFloat(bounds.height)
             )
+            let cornerRadius: CGFloat = 6
+            let lineWidth: CGFloat = 2.5
+            let outsetRect = strokeRect.insetBy(dx: -lineWidth / 2, dy: -lineWidth / 2)
+            let strokePath = CGPath(
+                roundedRect: outsetRect,
+                cornerWidth: cornerRadius + lineWidth / 2,
+                cornerHeight: cornerRadius + lineWidth / 2,
+                transform: nil
+            )
+            cg.addPath(strokePath)
             cg.setStrokeColor(accent.cgColor)
-            cg.setLineWidth(3)
-            cg.stroke(strokeRect)
+            cg.setLineWidth(lineWidth)
+            cg.strokePath()
 
             // 3. Caption strip background.
             let captionRect = CGRect(
