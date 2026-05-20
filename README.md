@@ -31,13 +31,13 @@ This is the iOS port of [`jelly-android`](https://github.com/rajan-dube/jelly-an
 
 ### Step 1: Add the package
 
-In Xcode: **File → Add Package Dependencies… → Add Local…** and pick the `jelly-swift` folder. Add the `Jelly` library product to your app target.
+In Xcode: **File → Add Package Dependencies…**, paste `https://github.com/rajanndube/jelly-swift.git`, pick the `v0.1.0` (or later) version, and add the `Jelly` library product to your app target.
 
 For SwiftPM-driven projects, in your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(path: "../jelly-swift")
+    .package(url: "https://github.com/rajanndube/jelly-swift.git", from: "0.1.0")
 ],
 targets: [
     .executableTarget(
@@ -203,11 +203,9 @@ The format is byte-identical to the Android version and the web version's `gener
 
 ## SDK development
 
-For active SDK development against an unpublished branch (when you are modifying `jelly-swift/Sources/...` and do not want to publish per change), use a local Swift Package reference instead of a remote URL.
+For active SDK development against an unpublished branch (when you are modifying `jelly-swift/Sources/...` and do not want to publish per change), use a local Swift Package reference instead of a remote URL: in Xcode, File → Add Package Dependencies → Add Local… → pick the `jelly-swift` folder. Edits to the SDK source pick up on the next build with no publish step.
 
-The included [`jelly sample/`](jelly%20sample/) Xcode project already does this; it points at the parent jelly-swift folder via an `XCLocalSwiftPackageReference` with `relativePath = ".."`. Edits to the SDK source pick up on the next build with no publish step.
-
-For a host project, in Xcode: File → Add Package Dependencies → Add Local… → pick the `jelly-swift` folder.
+For SwiftPM-driven host projects, point at the folder directly with `.package(path: "../jelly-swift")`.
 
 ---
 

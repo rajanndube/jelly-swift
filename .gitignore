@@ -4,9 +4,11 @@
 DerivedData/
 *.xcuserstate
 *.xcworkspace/xcuserdata/
-SampleApp/*.xcodeproj/xcuserdata/
-SampleApp/*.xcodeproj/project.xcworkspace/xcuserdata/
 xcuserdata/
 *.xcscmblueprint
 *.xccheckout
 Package.resolved
+
+# Local-only sample app. Kept on disk for live SDK testing but not
+# part of the published SwiftPM package.
+jelly sample/
