@@ -1,7 +1,7 @@
 # Jelly for iOS
 
 [![Swift](https://img.shields.io/badge/Swift-5.9%2B-orange.svg)](https://swift.org)
-[![Platforms](https://img.shields.io/badge/Platforms-iOS%20%7C%20Mac%20Catalyst%20%7C%20visionOS-blue.svg)](#prerequisites)
+[![Platforms](https://img.shields.io/badge/Platforms-iOS%20%7C%20Mac%20Catalyst-blue.svg)](#prerequisites)
 [![Swift Package Manager](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
 [![Release](https://img.shields.io/github/v/release/rajanndube/jelly-swift?sort=semver)](https://github.com/rajanndube/jelly-swift/releases)
 [![License](https://img.shields.io/github/license/rajanndube/jelly-swift)](LICENSE)
@@ -32,7 +32,7 @@ This is the iOS port of the Jelly Android SDK. The output markdown contract and 
 
 ### Prerequisites
 
-- iOS 16+ (Mac Catalyst 16+ / visionOS 1+ / macOS 13+ where the SDK no-ops without UIKit).
+- iOS 16+ (Mac Catalyst 16+ / macOS 13+ where the SDK no-ops without UIKit).
 - A SwiftUI `App` or a UIKit `AppDelegate`.
 
 ### Step 1: Add the package
