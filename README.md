@@ -8,7 +8,7 @@
 
 A debug-only QA-annotation toolbar for SwiftUI / UIKit apps. Long-press any element on screen, drop a comment, and share to Slack, the clipboard, or your MCP server as structured markdown plus a baked image.
 
-This is the iOS port of the Jelly Android SDK. The output markdown contract and `/sessions` API are byte-identical across the iOS, Android, and web clients, so the same downstream agents work everywhere.
+This is the iOS port of the [Jelly Android SDK](https://github.com/rajanndube/jelly-android). The output markdown contract and `/sessions` API are byte-identical across the iOS, Android, and web clients, so the same downstream agents work everywhere.
 
 ```
 ┌─────────────────────────────┐
