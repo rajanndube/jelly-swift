@@ -42,7 +42,7 @@ First public release of the Jelly iOS SDK — a debug-only QA-annotation toolbar
 - Forced-dark zinc theme on overlay windows only — does not bleed into host content.
 
 ### Requirements
-- iOS 16+ (Mac Catalyst 16+ / visionOS 1+).
+- iOS 16+ (Mac Catalyst 16+).
 - SwiftUI or UIKit host app.
 - Debug-only by design — gate `import Jelly` and `Jelly.install()` behind `#if DEBUG`.
 

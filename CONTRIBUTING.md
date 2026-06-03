@@ -10,19 +10,17 @@ Thanks for your interest in improving Jelly. This is a small, focused SDK — co
 
 ## Getting set up
 
+Jelly is iOS-only, so build and test against the iOS Simulator with `xcodebuild` (the macOS host slice no-ops via `canImport(UIKit)`, so plain `swift build` / `swift test` won't compile the UIKit-backed code):
+
 ```bash
 git clone https://github.com/rajanndube/jelly-swift.git
 cd jelly-swift
-swift build        # builds the SDK
-swift test         # runs the parity + storage tests
-```
 
-For iOS Simulator builds and the sample app:
-
-```bash
+# Build + run the parity / storage tests (17 tests)
 xcodebuild -scheme Jelly \
     -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
 
+# Build the sample app
 xcodebuild -project "jelly sample/jelly sample.xcodeproj" \
     -scheme "jelly sample" \
     -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
@@ -30,7 +28,7 @@ xcodebuild -project "jelly sample/jelly sample.xcodeproj" \
 
 ## Before you open a PR
 
-1. `swift test` passes (all parity tests green).
+1. `xcodebuild ... test` passes (all parity tests green).
 2. New behavior has a test where practical — especially anything touching `OutputGenerator` or the hit-test probes.
 3. Code matches the surrounding style (naming, comment density, idiom).
 4. Update [`CHANGELOG.md`](CHANGELOG.md) under an "Unreleased" heading if your change is user-facing.
