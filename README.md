@@ -1,8 +1,14 @@
 # Jelly for iOS
 
+[![Swift](https://img.shields.io/badge/Swift-5.9%2B-orange.svg)](https://swift.org)
+[![Platforms](https://img.shields.io/badge/Platforms-iOS%20%7C%20Mac%20Catalyst%20%7C%20visionOS-blue.svg)](#prerequisites)
+[![Swift Package Manager](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
+[![Release](https://img.shields.io/github/v/release/rajanndube/jelly-swift?sort=semver)](https://github.com/rajanndube/jelly-swift/releases)
+[![License](https://img.shields.io/github/license/rajanndube/jelly-swift)](LICENSE)
+
 A debug-only QA-annotation toolbar for SwiftUI / UIKit apps. Long-press any element on screen, drop a comment, and share to Slack, the clipboard, or your MCP server as structured markdown plus a baked image.
 
-This is the iOS port of [`jelly-android`](https://github.com/rajan-dube/jelly-android). The output markdown contract and `/sessions` API are byte-identical, so the same downstream agents work for all clients.
+This is the iOS port of the Jelly Android SDK. The output markdown contract and `/sessions` API are byte-identical across the iOS, Android, and web clients, so the same downstream agents work everywhere.
 
 ```
 ┌─────────────────────────────┐
@@ -213,4 +219,4 @@ For SwiftPM-driven host projects, point at the folder directly with `.package(pa
 
 `v0.1`: Single-line `Jelly.install()`, FAB toolbar, annotate-mode, two-window architecture (`UIWindow` at `.alert + 1` for the FAB plus a separate capture window), SwiftUI accessibility + UIView dual hit-test, settings sheet, review screen, `OutputGenerator` byte-parity tests, MCP `/sessions` sync via URLSession, baked share images.
 
-See [`CLAUDE.md`](CLAUDE.md) for repo-internal architecture notes and the design plan at `~/.claude/plans/crispy-mixing-sketch.md`.
+See [`CHANGELOG.md`](CHANGELOG.md) for the per-release history and [`CLAUDE.md`](CLAUDE.md) for repo-internal architecture notes.
