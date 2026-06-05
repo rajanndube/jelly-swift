@@ -45,6 +45,7 @@ No per-screen wiring. No accessibility-id plumbing. Optional `.jellySource()` mo
 - `Sources/Jelly/Storage/AnnotationStore.swift` — UserDefaults suite with 7-day TTL
 - `Sources/Jelly/Sync/JellyAPI.swift` — URLSession async/await client for the MCP `/sessions` endpoint
 - `Sources/Jelly/Models/Annotation.swift` — `Codable` with `CodingKeys` mapping `composableHierarchy ↔ "reactComponents"` and `syncedTo ↔ "_syncedTo"` for wire parity
+- `Sources/Jelly/UI/QRScannerView.swift` — `AVCaptureSession` QR scanner (`AVCaptureMetadataOutput`, `.qr`) presented from the settings sheet to fill the endpoint URL by scanning the sync landing page's per-refresh QR code; requires host `NSCameraUsageDescription`, shows an `.unavailable` state on the Simulator (no capture hardware)
 - `Sources/Jelly/Theme/JellyTheme.swift` — forced-dark zinc palette (#09090B / #18181B / #27272A / #FAFAFA / #A1A1AA / #52525B)
 - `jelly sample/` — minimal SwiftUI app for live testing (not part of the SwiftPM package; standalone Xcode project)
 
@@ -62,7 +63,7 @@ This means **zero per-screen integration code** is required for source attributi
 
 ## Capabilities
 
-Element identification (UIView + UIAccessibility + CALayer), bounds, output markdown, storage, MCP `/sessions` sync, screenshot + bake, settings sheet, review screen, accent colors, motion tokens.
+Element identification (UIView + UIAccessibility + CALayer), bounds, output markdown, storage, MCP `/sessions` sync, QR-scan the endpoint URL, screenshot + bake, settings sheet, review screen, accent colors, motion tokens.
 
 Not in scope: React Native introspection, animation freeze, keyboard shortcuts, design-mode style mutation, multi-select drag, drawing strokes.
 
@@ -71,6 +72,7 @@ Platform notes:
 - **Forced-dark theme is `.preferredColorScheme(.dark)` on overlay windows only.** Does not bleed into host content.
 - **Two-window FAB-over-sheets.** `UIWindow(windowLevel: .alert + 1)` sits above SwiftUI `.sheet` and `.fullScreenCover` (both presented within the host window).
 - **iPad Stage Manager.** `SceneOverlayController` is keyed by `ObjectIdentifier(UIWindowScene)` so each scene gets its own pair of windows. Teardown on `sceneDidDisconnect` is mandatory or windows leak.
+- **QR endpoint scan needs host `NSCameraUsageDescription`.** iOS terminates the process the instant capture is requested if the key is absent — a hard crash, not a denied prompt. The SDK can't add the key for the host; sync-using apps must declare it themselves (the sample app sets it in its generated Info.plist). Camera is also absent on the Simulator, so the scanner shows an `.unavailable` state there rather than a black preview.
 
 ## Phasing
 

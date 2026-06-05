@@ -38,6 +38,9 @@ struct SettingsSheet: View {
     /// `pushUnsyncedAnnotations` against the current endpoint.
     var onPushPending: () -> Void = {}
 
+    /// Presents the camera-backed QR scanner for the endpoint field.
+    @State private var scannerPresented = false
+
     var body: some View {
         NavigationStack {
             Form {
@@ -57,6 +60,20 @@ struct SettingsSheet: View {
             .background(JellyTheme.background)
         }
         .tint(settings.accentColor.color)
+        #if canImport(UIKit)
+        .fullScreenCover(isPresented: $scannerPresented) {
+            JellyThemed {
+                QRScannerSheet(
+                    accent: settings.accentColor.color,
+                    onScan: { scanned in
+                        settings.endpoint = scanned
+                        scannerPresented = false
+                    },
+                    onCancel: { scannerPresented = false }
+                )
+            }
+        }
+        #endif
     }
 
     private var detailLevelSection: some View {
@@ -104,13 +121,27 @@ struct SettingsSheet: View {
         Section {
             Toggle("Sync to MCP server", isOn: $settings.syncEnabled)
             if settings.syncEnabled {
-                TextField("Endpoint URL", text: Binding(
-                    get: { settings.endpoint ?? "" },
-                    set: { settings.endpoint = $0.isEmpty ? nil : $0 }
-                ))
-                .autocorrectionDisabled()
-                .keyboardType(.URL)
-                .textInputAutocapitalization(.never)
+                HStack(spacing: 8) {
+                    TextField("Endpoint URL", text: Binding(
+                        get: { settings.endpoint ?? "" },
+                        set: { settings.endpoint = $0.isEmpty ? nil : $0 }
+                    ))
+                    .autocorrectionDisabled()
+                    .keyboardType(.URL)
+                    .textInputAutocapitalization(.never)
+
+                    #if canImport(UIKit)
+                    Button {
+                        scannerPresented = true
+                    } label: {
+                        Image(systemName: "qrcode.viewfinder")
+                            .imageScale(.large)
+                    }
+                    .buttonStyle(.borderless)
+                    .tint(settings.accentColor.color)
+                    .accessibilityLabel("Scan QR code")
+                    #endif
+                }
 
                 TextField("Webhook URL (optional)", text: Binding(
                     get: { settings.webhookUrl ?? "" },
@@ -124,7 +155,7 @@ struct SettingsSheet: View {
             Text("Sync")
         } footer: {
             if settings.syncEnabled {
-                Text("Annotations will POST to your MCP /sessions endpoint after each capture.")
+                Text("Annotations will POST to your MCP /sessions endpoint after each capture. Tap the QR button to scan the endpoint from the sync landing page.")
             }
         }
 
