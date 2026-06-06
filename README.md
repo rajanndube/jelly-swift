@@ -5,7 +5,7 @@
 [![Swift Package Manager](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
 [![Release](https://img.shields.io/github/v/release/rajanndube/jelly-swift?sort=semver)](https://github.com/rajanndube/jelly-swift/releases)
 [![CI](https://github.com/rajanndube/jelly-swift/actions/workflows/ci.yml/badge.svg)](https://github.com/rajanndube/jelly-swift/actions/workflows/ci.yml)
-[![License](https://img.shields.io/badge/license-PolyForm%20Shield%201.0.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-PolyForm%20Shield%201.0.0-blue.svg)](LICENSE.md)
 
 A debug-only QA-annotation toolbar for SwiftUI / UIKit apps. Long-press any element on screen, drop a comment, and share to Slack, the clipboard, or your MCP server as structured markdown plus a baked image.
 
@@ -226,10 +226,10 @@ See [`CHANGELOG.md`](CHANGELOG.md) for the per-release history and [`CLAUDE.md`]
 
 ## License
 
-[PolyForm Shield 1.0.0](LICENSE) — source-available. You may use, modify, and
+[PolyForm Shield 1.0.0](LICENSE.md) — source-available. You may use, modify, and
 distribute it freely, **except** to build a product that competes with Jelly.
 This isn't an OSI "open source" licence; it's a deliberate anti-compete stance.
-See [LICENSE](LICENSE) for the exact terms.
+See [LICENSE](LICENSE.md) for the exact terms.
 
 Contributions are accepted under the [Developer Certificate of Origin](https://developercertificate.org/)
 — sign off your commits with `git commit -s`. See [CONTRIBUTING.md](CONTRIBUTING.md).

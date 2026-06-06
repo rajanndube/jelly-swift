@@ -28,7 +28,7 @@ xcodebuild -project "jelly sample/jelly sample.xcodeproj" \
 
 ## Licensing & sign-off (DCO)
 
-This project is **source-available under the [PolyForm Shield 1.0.0](LICENSE)
+This project is **source-available under the [PolyForm Shield 1.0.0](LICENSE.md)
 licence** — free to use, modify, and distribute, but not to build a competing
 product. By contributing, you agree your contribution is licensed under those
 same terms.
