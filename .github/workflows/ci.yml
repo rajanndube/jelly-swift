@@ -1,0 +1,47 @@
+name: CI
+
+# Builds the SDK and runs the test suite against the iOS Simulator. Jelly is
+# iOS-only — the macOS host slice no-ops via `canImport(UIKit)`, so plain
+# `swift build` / `swift test` won't compile the UIKit-backed code; we drive
+# `xcodebuild` against a simulator instead.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: xcodebuild -version
+
+      - name: Pick an available iPhone simulator
+        id: sim
+        run: |
+          set -euo pipefail
+          # Resolve the UDID of the first available iPhone simulator on the
+          # runner, so CI doesn't pin to a device name that may not exist on a
+          # given image (e.g. "iPhone 17 Pro").
+          udid="$(xcrun simctl list devices available \
+            | grep -E 'iPhone' \
+            | grep -oE '[0-9A-Fa-f-]{36}' \
+            | head -n1)"
+          if [ -z "$udid" ]; then
+            echo "No available iPhone simulator found." >&2
+            xcrun simctl list devices available >&2
+            exit 1
+          fi
+          echo "Using simulator $udid"
+          echo "udid=$udid" >> "$GITHUB_OUTPUT"
+
+      - name: Build & test
+        run: |
+          set -euo pipefail
+          xcodebuild -scheme Jelly \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            test

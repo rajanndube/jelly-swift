@@ -4,7 +4,8 @@
 [![Platforms](https://img.shields.io/badge/Platforms-iOS%20%7C%20Mac%20Catalyst-blue.svg)](#prerequisites)
 [![Swift Package Manager](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
 [![Release](https://img.shields.io/github/v/release/rajanndube/jelly-swift?sort=semver)](https://github.com/rajanndube/jelly-swift/releases)
-[![License](https://img.shields.io/github/license/rajanndube/jelly-swift)](LICENSE)
+[![CI](https://github.com/rajanndube/jelly-swift/actions/workflows/ci.yml/badge.svg)](https://github.com/rajanndube/jelly-swift/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-PolyForm%20Shield%201.0.0-blue.svg)](LICENSE)
 
 A debug-only QA-annotation toolbar for SwiftUI / UIKit apps. Long-press any element on screen, drop a comment, and share to Slack, the clipboard, or your MCP server as structured markdown plus a baked image.
 
@@ -220,3 +221,15 @@ For SwiftPM-driven host projects, point at the folder directly with `.package(pa
 `v0.1`: Single-line `Jelly.install()`, FAB toolbar, annotate-mode, two-window architecture (`UIWindow` at `.alert + 1` for the FAB plus a separate capture window), SwiftUI accessibility + UIView dual hit-test, settings sheet, review screen, `OutputGenerator` byte-parity tests, MCP `/sessions` sync via URLSession, baked share images.
 
 See [`CHANGELOG.md`](CHANGELOG.md) for the per-release history and [`CLAUDE.md`](CLAUDE.md) for repo-internal architecture notes.
+
+---
+
+## License
+
+[PolyForm Shield 1.0.0](LICENSE) — source-available. You may use, modify, and
+distribute it freely, **except** to build a product that competes with Jelly.
+This isn't an OSI "open source" licence; it's a deliberate anti-compete stance.
+See [LICENSE](LICENSE) for the exact terms.
+
+Contributions are accepted under the [Developer Certificate of Origin](https://developercertificate.org/)
+— sign off your commits with `git commit -s`. See [CONTRIBUTING.md](CONTRIBUTING.md).

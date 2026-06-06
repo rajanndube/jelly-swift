@@ -26,12 +26,34 @@ xcodebuild -project "jelly sample/jelly sample.xcodeproj" \
     -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 ```
 
+## Licensing & sign-off (DCO)
+
+This project is **source-available under the [PolyForm Shield 1.0.0](LICENSE)
+licence** — free to use, modify, and distribute, but not to build a competing
+product. By contributing, you agree your contribution is licensed under those
+same terms.
+
+Contributions are accepted under the [Developer Certificate of Origin](https://developercertificate.org/)
+(DCO) — a lightweight, sign-off-based alternative to a CLA. It's a statement
+that you wrote the patch (or otherwise have the right to submit it). To sign off,
+add a `Signed-off-by` trailer to each commit:
+
+```bash
+git commit -s -m "your message"
+```
+
+This appends `Signed-off-by: Your Name <you@example.com>` using your
+`git config user.name` / `user.email`. PRs whose commits aren't signed off will
+be asked to amend (`git rebase --signoff main` fixes a whole branch). CI enforces
+this per commit.
+
 ## Before you open a PR
 
 1. `xcodebuild ... test` passes (all parity tests green).
 2. New behavior has a test where practical — especially anything touching `OutputGenerator` or the hit-test probes.
 3. Code matches the surrounding style (naming, comment density, idiom).
 4. Update [`CHANGELOG.md`](CHANGELOG.md) under an "Unreleased" heading if your change is user-facing.
+5. Sign off your commits (`git commit -s`, see above).
 
 ## Architecture
 
