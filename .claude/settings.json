@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/rajan/Desktop/App-icon.png)",
+      "Bash(sips -s format png -z 1024 1024 /Users/rajan/Desktop/App-icon.png --out AppIcon.png)",
+      "Bash(sips -g pixelWidth -g pixelHeight AppIcon.png)",
+      "Bash(/usr/libexec/PlistBuddy -c \"Print :CFBundleIcons\" Info.plist)"
+    ]
+  }
+}
